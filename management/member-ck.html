@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      xblock div{ padding: 5px;  }
+      xblock div ul{ list-style: none; display: inline-block; }
+      xblock div ul li{ float: left; padding: 0 10px; }
+      xblock div ul li a{ color: blue }
+    </style>
+  </head>
+  
+  <body>
+     <div class="layui-side" style="background-color: #E8E5D6; overflow-x: auto; width: 250px;">
+        <div class="layui-side-scroll">
+          <ul id="demo1" style="padding: 20px 0px; width: 250px;"></ul>
+        </div>
+    </div>
+
+    <div class="layui-body" style="margin-left: 50px;">
+        <div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a>
+              <cite>查看列表</cite></a>
+          </span>
+          <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+        </div>
+        <div class="x-body">
+          <div class="layui-row" id="search">
+            <form class="layui-form layui-col-md10 x-so">
+              <input class="layui-input" placeholder="请输入原始ID" name="start" >
+              <input class="layui-input" placeholder="请输入企业名称" name="end" >
+              <input type="text" name="username"  placeholder="请输入产品" autocomplete="off" class="layui-input">
+              
+              <div class="layui-input-inline">
+                <select name="quiz">
+                  <option value="">请选择产品类别</option>
+                  <option value="1">环境检测机构名称</option>
+                  <option value="2">产品检测机构名称</option>
+                  <option value="3">地方工作机构名称</option>
+                </select>
+              </div>
+              <input class="layui-input" placeholder="请输入全文关键字检索" name="end" >
+              <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+            </form>
+            <!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
+            <!-- <button class="layui-btn" onclick="x_admin_show('添加','./member-add.html',1500,800)"><i class="layui-icon"></i>添加</button> -->
+          </div>
+
+          <xblock>
+            
+            <div id="nav">
+              <div style="border-bottom: 1px dashed #B9A5A5; display: none;" id="HZNF1">
+                <ul>
+                  <li style="color: gray">获证年份：</li>
+                  <li><a href="javascript:;">[2018]</a></li>
+                </ul>
+              </div>
+              <div style="border-bottom: 1px dashed #B9A5A5; display: none;" id="HZNF2">
+                <ul>
+                  <li style="color: gray">获证年份：</li>
+                  <li><a href="javascript:;">[2018]</a></li>
+                  <li><a href="javascript:;">[北京市]</a></li>
+                </ul>
+              </div>
+              <div style="border-bottom: 1px dashed #B9A5A5; display: none;" id="HZNF3">
+                <ul>
+                  <li style="color: gray">获证年份：</li>
+                  <li><a href="javascript:;">[2018]</a></li>
+                  <li><a href="javascript:;">[北京市]</a></li>
+                  <li><a href="javascript:;">[初次]</a></li>
+                  
+                </ul>
+              </div>
+
+              <div>
+                <ul>
+                  <li style="color: gray">产品分类：</li>
+                  <li><a href="javascript:;">禽畜产品</a></li>
+                  <li><a href="javascript:;">蜂产品</a></li>
+                  <li><a href="javascript:;">加工产品</a></li>
+                  <li><a href="javascript:;">食用菌</a></li>
+                  <li><a href="javascript:;">水产品</a></li>
+                  <li><a href="javascript:;">种植产品</a></li>
+                </ul>
+                <span style="float: right; color: gray; padding-right: 20px; cursor: pointer;">更多</span>
+              </div>
+              
+              <div style="border-top: 1px dashed #B9A5A5">
+                <ul>
+                  <li style="color: gray">申请年份：</li>
+                  <li><a href="javascript:;">2018</a></li>
+                  <li><a href="javascript:;">2017</a></li>
+                  <li><a href="javascript:;">2016</a></li>
+                  <li><a href="javascript:;">2015</a></li>
+                  <li><a href="javascript:;">2014</a></li>
+                  <li><a href="javascript:;">2013</a></li>
+                  <li><a href="javascript:;">2012</a></li>
+                  <li><a href="javascript:;">2011</a></li>
+                  <li><a href="javascript:;">2010</a></li>
+                  <li><a href="javascript:;">2009</a></li>
+                  <li><a href="javascript:;">2008</a></li>
+                  <li><a href="javascript:;">2007</a></li>
+                  <li><a href="javascript:;">2006</a></li>
+                </ul>
+                <span style="float: right; color: gray; padding-right: 20px; cursor: pointer;">更多</span>
+              </div>
+              
+              <div style="border-top: 1px dashed #B9A5A5" id="HZNFS">
+                <ul>
+                  <li style="color: gray">获证年份：</li>
+                  <li><a href="javascript:;">2018</a></li>
+                  <li><a href="javascript:;">2017</a></li>
+                  <li><a href="javascript:;">2016</a></li>
+                  <li><a href="javascript:;">2015</a></li>
+                  <li><a href="javascript:;">2014</a></li>
+                  <li><a href="javascript:;">2013</a></li>
+                  <li><a href="javascript:;">2012</a></li>
+                  <li><a href="javascript:;">2011</a></li>
+                  <li><a href="javascript:;">2010</a></li>
+                  <li><a href="javascript:;">2009</a></li>
+                  <li><a href="javascript:;">2008</a></li>
+                  <li><a href="javascript:;">2007</a></li>
+                  <li><a href="javascript:;">2006</a></li>
+                </ul>
+                <span style="float: right; color: gray; padding-right: 20px; cursor: pointer;">更多</span>
+              </div>
+            </div>
+
+            
+          </xblock>
+
+          <div id="table" style="display: none;">
+              <!-- <table class="layui-table">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+                    </th>
+                    <th>ID</th>
+                    <th>原始ID</th>
+                    <th>企业名称</th>
+                    <th>产品</th>
+                    <th>操作</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+                    </td>
+                    <td>1</td>
+                    <td>绿色食品标识</td>
+                    <td>中绿食品集团有限公司</td>
+                    <td>绿色黑猪肉，有机蔬菜</td>
+                    <td class="td-manage">
+                      
+                      <a title="编辑"  onclick="x_admin_show('编辑','./member-add.html',1500,800)" href="javascript:;">
+                        <i class="layui-icon">&#xe642;</i>
+                      </a>
+                      <a onclick="x_admin_show('查看','member-password.html',1500,800)" title="查看" href="javascript:;">
+                        <i class="layui-icon">&#xe631;</i>
+                      </a>
+                      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                        <i class="layui-icon">&#xe640;</i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+                    </td>
+                    <td>1</td>
+                    <td>禽畜产品调查表</td>
+                    <td>黑龙江食品集团有限公司</td>
+                    <td>绿色黑猪肉，有机蔬菜</td>
+                    <td class="td-manage">
+                      <a title="编辑"  onclick="x_admin_show('编辑','./member-add.html',1500,800)" href="javascript:;">
+                        <i class="layui-icon">&#xe642;</i>
+                      </a>
+                      <a onclick="x_admin_show('查看','member-password.html',1500,800)" title="查看" href="javascript:;">
+                        <i class="layui-icon">&#xe631;</i>
+                      </a>
+                      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                        <i class="layui-icon">&#xe640;</i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+                    </td>
+                    <td>3</td>
+                    <td>营业执照复印件</td>
+                    <td>北京食品集团有限公司</td>
+                    <td>绿色黑猪肉，有机蔬菜</td>
+                    <td class="td-manage">
+                      <a title="编辑"  onclick="x_admin_show('编辑','./member-add.html',1500,800)" href="javascript:;">
+                        <i class="layui-icon">&#xe642;</i>
+                      </a>
+                      <a onclick="x_admin_show('查看','member-password.html',1500,800)" title="查看" href="javascript:;">
+                        <i class="layui-icon">&#xe631;</i>
+                      </a>
+                      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                        <i class="layui-icon">&#xe640;</i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+                    </td>
+                    <td>4</td>
+                    <td>动物防疫条件合格证</td>
+                    <td>上海食品集团有限公司</td>
+                    <td>绿色黑猪肉，有机蔬菜</td>
+                    <td class="td-manage">
+                      <a title="编辑"  onclick="x_admin_show('编辑','./member-add.html',1500,800)" href="javascript:;">
+                        <i class="layui-icon">&#xe642;</i>
+                      </a>
+                      <a onclick="x_admin_show('查看','member-password.html',1500,800)" title="查看" href="javascript:;">
+                        <i class="layui-icon">&#xe631;</i>
+                      </a>
+                      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                        <i class="layui-icon">&#xe640;</i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+                    </td>
+                    <td>5</td>
+                    <td>加工产品调查表</td>
+                    <td>天津食品集团有限公司</td>
+                    <td>绿色黑猪肉，有机蔬菜</td>
+                    <td class="td-manage">
+                      <a title="编辑"  onclick="x_admin_show('编辑','./member-add.html',1500,800)" href="javascript:;">
+                        <i class="layui-icon">&#xe642;</i>
+                      </a>
+                      <a onclick="x_admin_show('查看','member-password.html',1500,800)" title="查看" href="javascript:;">
+                        <i class="layui-icon">&#xe631;</i>
+                      </a>
+                      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                        <i class="layui-icon">&#xe640;</i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+                    </td>
+                    <td>6</td>
+                    <td>环境质量检测报告</td>
+                    <td>江西食品集团有限公司</td>
+                    <td>绿色黑猪肉，有机蔬菜</td>
+                    <td class="td-manage">
+                      <a title="编辑"  onclick="x_admin_show('编辑','./member-add.html',1500,800)" href="javascript:;">
+                        <i class="layui-icon">&#xe642;</i>
+                      </a>
+                      <a onclick="x_admin_show('查看','member-password.html',1500,800)" title="查看" href="javascript:;">
+                        <i class="layui-icon">&#xe631;</i>
+                      </a>
+                      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                        <i class="layui-icon">&#xe640;</i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+                    </td>
+                    <td>7</td>
+                    <td>商标注册证件复印件</td>
+                    <td>四川食品集团有限公司</td>
+                    <td>绿色黑猪肉，有机蔬菜</td>
+                    <td class="td-manage">
+                      <a title="编辑"  onclick="x_admin_show('编辑','./member-add.html',1500,800)" href="javascript:;">
+                        <i class="layui-icon">&#xe642;</i>
+                      </a>
+                      <a onclick="x_admin_show('查看','member-password.html',1500,800)" title="查看" href="javascript:;">
+                        <i class="layui-icon">&#xe631;</i>
+                      </a>
+                      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                        <i class="layui-icon">&#xe640;</i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table> -->
+              <form class="layui-form">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                  <legend>基本信息</legend>
+                </fieldset>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                      <label class="layui-form-label">原始ID</label>
+                      <div class="layui-input-inline">
+                        <input type="tel" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input" placeholder="001" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">产品名称</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input" placeholder="有机蔬菜" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">申请人(中文)</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input" placeholder="李梅" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">申请人(英文)</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|date" autocomplete="off" class="layui-input" placeholder="limei" disabled>
+                      </div>
+                    </div>
+                    
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                      <label class="layui-form-label">营业执照注册号</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input" placeholder="165616549844" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">申请日期</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|date" autocomplete="off" class="layui-input" placeholder="2017-02-30" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">申请人简介</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input" placeholder="" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">受理日期</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|date" autocomplete="off" class="layui-input" placeholder="2017-03-30" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">获证日期</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|date" autocomplete="off" class="layui-input" placeholder="2017-04-30" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">首次获证时间</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input" placeholder="2017-05-30" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">企业名称</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="email" lay-verify="required|text" autocomplete="off" class="layui-input" placeholder="中绿食品集团有限公司" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">商标</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">企业法定代表人</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input" placeholder="李梅" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">年生产总值</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input" placeholder="645464" disabled>
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">年利润</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input" placeholder="85652" disabled>
+                      </div>
+                    </div>
+                    
+                </div>
+
+                <div class="layui-form-item">   
+                    <div class="layui-inline">
+                      <label class="layui-form-label">龙头企业</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">内检员</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">初次/续展</label>
+                      <div class="layui-input-inline">
+                        <input type="tel" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                      <label class="layui-form-label">联系人</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">邮编</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">网址</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">座机</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">手机</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">传真</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">Email</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="phone" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                  <label class="layui-form-label">联系地址</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入联系地址" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-form-item"> 
+                    <div class="layui-inline">
+                      <label class="layui-form-label">产品名称</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="email" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">产品类别</label>
+                      <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                          <select name="quiz">
+                            <option value="">产品类别</option>
+                            <option value="1">环境检测机构名称</option>
+                            <option value="2">产品检测机构名称</option>
+                            <option value="3">地方工作机构名称</option>
+                            
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="layui-form-item"> 
+                    <div class="layui-inline">
+                      <label class="layui-form-label">产品名称</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="email" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">产品类别</label>
+                      <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                          <select name="quiz">
+                            <option value="">产品类别</option>
+                            <option value="1">环境检测机构名称</option>
+                            <option value="2">产品检测机构名称</option>
+                            <option value="3">地方工作机构名称</option>
+                            
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="layui-form-item"> 
+                    <div class="layui-inline">
+                      <label class="layui-form-label">产品名称</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="email" lay-verify="required|text" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label">产品类别</label>
+                      <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                          <select name="quiz">
+                            <option value="">产品类别</option>
+                            <option value="1">环境检测机构名称</option>
+                            <option value="2">产品检测机构名称</option>
+                            <option value="3">地方工作机构名称</option>
+                            
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </form>
+          </div>
+          
+
+          <div id="tab" class="layui-collapse" lay-filter="test">
+            
+            <div class="layui-colla-item">
+              <h2 class="layui-colla-title">中绿食品集团有限公司</h2>
+              <div class="layui-colla-content">
+
+                <div class="layui-form-item"> 
+                  <div class="layui-inline">
+                    <label class="layui-form-label">企业名称：</label>
+                    <div class="layui-input-inline">
+                      <input type="tel" name="phone" lay-verify="required|text" class="layui-input" placeholder="中绿食品集团有限公司" disabled>
+                    </div>
+                  </div>
+                  <div class="layui-inline">
+                    <label class="layui-form-label">营业执照：</label>
+                    <div class="layui-input-inline">
+                      <input type="tel" name="phone" lay-verify="required|text" class="layui-input" placeholder="12334234" disabled>
+                    </div>
+                  </div>
+                </div> 
+                <div class="layui-form-item">
+                  <label class="layui-form-label">地址</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="北京市朝阳区" class="layui-input" disabled>
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">产品</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="猪肉，肌肉，牛肉" class="layui-input" disabled>
+                  </div>
+                </div>
+                <div class="layui-form-item"> 
+                  <div class="layui-inline">
+                    <button class="layui-btn" onclick="x_admin_show('编辑','./member-add.html',1500,800)"><i class="layui-icon">&#xe642;</i>编辑</button>
+                    <a class="layui-btn" href="pdf1.html" title="查看PDF" target="_blank">
+                      <i class="layui-icon">&#xe631;</i>查看PDF
+                    </a>
+                  </div>
+                  
+                </div>     
+              </div>
+            </div>
+
+            <div class="layui-colla-item">
+              <h2 class="layui-colla-title">北京食品集团有限公司</h2>
+              <div class="layui-colla-content">
+
+                <div class="layui-form-item"> 
+                  <div class="layui-inline">
+                    <label class="layui-form-label">企业名称：</label>
+                    <div class="layui-input-inline">
+                      <input type="tel" name="phone" lay-verify="required|text" class="layui-input" placeholder="北京市食品集团有限公司" disabled>
+                    </div>
+                  </div>
+                  <div class="layui-inline">
+                    <label class="layui-form-label">营业执照：</label>
+                    <div class="layui-input-inline">
+                      <input type="tel" name="phone" lay-verify="required|text" class="layui-input" placeholder="84632" disabled>
+                    </div>
+                  </div>
+                </div> 
+                <div class="layui-form-item">
+                  <label class="layui-form-label">地址</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="北京市朝阳区" class="layui-input" disabled>
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">产品</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="猪肉，肌肉，牛肉" class="layui-input" disabled>
+                  </div>
+                </div>
+                <div class="layui-form-item"> 
+                  <div class="layui-inline">
+                    <button class="layui-btn" onclick="x_admin_show('编辑','./member-add.html',1500,800)"><i class="layui-icon">&#xe642;</i>编辑</button>
+                    <a class="layui-btn" href="pdf1.html" title="查看PDF" target="_blank">
+                      <i class="layui-icon">&#xe631;</i>查看PDF
+                    </a>
+                  </div>
+                  
+                </div>     
+              </div>
+            </div>
+            <div class="layui-colla-item">
+              <h2 class="layui-colla-title">上海食品集团有限公司</h2>
+              <div class="layui-colla-content">
+
+                <div class="layui-form-item"> 
+                  <div class="layui-inline">
+                    <label class="layui-form-label">企业名称：</label>
+                    <div class="layui-input-inline">
+                      <input type="tel" name="phone" lay-verify="required|text" class="layui-input" placeholder="上海食品集团有限公司" disabled>
+                    </div>
+                  </div>
+                  <div class="layui-inline">
+                    <label class="layui-form-label">营业执照：</label>
+                    <div class="layui-input-inline">
+                      <input type="tel" name="phone" lay-verify="required|text" class="layui-input" placeholder="646564" disabled>
+                    </div>
+                  </div>
+                </div> 
+                <div class="layui-form-item">
+                  <label class="layui-form-label">地址</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="上海市浦东区" class="layui-input" disabled>
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">产品</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="猪肉，肌肉，牛肉" class="layui-input" disabled>
+                  </div>
+                </div>
+                <div class="layui-form-item"> 
+                  <div class="layui-inline">
+                    <button class="layui-btn" onclick="x_admin_show('编辑','./member-add.html',1500,800)"><i class="layui-icon">&#xe642;</i>编辑</button>
+                    <a class="layui-btn" href="pdf1.html" title="查看PDF" target="_blank">
+                      <i class="layui-icon">&#xe631;</i>查看PDF
+                    </a>
+                  </div>
+                  
+                </div>     
+              </div>
+            </div>
+            <div class="layui-colla-item">
+              <h2 class="layui-colla-title">天津食品集团有限公司</h2>
+              <div class="layui-colla-content">
+
+                <div class="layui-form-item"> 
+                  <div class="layui-inline">
+                    <label class="layui-form-label">企业名称：</label>
+                    <div class="layui-input-inline">
+                      <input type="tel" name="phone" lay-verify="required|text" class="layui-input" placeholder="天津食品集团有限公司" disabled>
+                    </div>
+                  </div>
+                  <div class="layui-inline">
+                    <label class="layui-form-label">营业执照：</label>
+                    <div class="layui-input-inline">
+                      <input type="tel" name="phone" lay-verify="required|text" class="layui-input" placeholder="12334234" disabled>
+                    </div>
+                  </div>
+                </div> 
+                <div class="layui-form-item">
+                  <label class="layui-form-label">地址</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="天津市滨海区" class="layui-input" disabled>
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">产品</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="猪肉，肌肉，牛肉" class="layui-input" disabled>
+                  </div>
+                </div>
+                <div class="layui-form-item"> 
+                  <div class="layui-inline">
+                    <button class="layui-btn" onclick="x_admin_show('编辑','./member-add.html',1500,800)"><i class="layui-icon">&#xe642;</i>编辑</button>
+                    <a class="layui-btn" href="pdf1.html" title="查看PDF" target="_blank">
+                      <i class="layui-icon">&#xe631;</i>查看PDF
+                    </a>
+                  </div>
+                  
+                </div>     
+              </div>
+            </div>
+          </div>
+          
+          <div id="frame" style="display: none;">
+              <iframe src="pdf1.html" frameborder="0" width="100%" height="800px"></iframe>
+          </div>
+
+          <!-- <div class="page">
+            <div>
+              <a class="prev" href="javascript:;">&lt;&lt;</a>
+              <span class="current">1</span>
+              <a class="next" href="javascript:;">&gt;&gt;</a>
+            </div>
+          </div> -->
+
+        </div>
+    </div>
+    
+    
+    <script>
+      layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#end' //指定元素
+        });
+      });
+
+       /*用户-停用*/
+      function member_stop(obj,id){
+          layer.confirm('确认要停用吗？',function(index){
+
+              if($(obj).attr('title')=='启用'){
+
+                //发异步把用户状态进行更改
+                $(obj).attr('title','停用')
+                $(obj).find('i').html('&#xe62f;');
+
+                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+                layer.msg('已停用!',{icon: 5,time:1000});
+
+              }else{
+                $(obj).attr('title','启用')
+                $(obj).find('i').html('&#xe601;');
+
+                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                layer.msg('已启用!',{icon: 5,time:1000});
+              }
+              
+          });
+      }
+
+      /*用户-删除*/
+      function member_del(obj,id){
+          layer.confirm('确认要删除吗？',function(index){
+              //发异步删除数据
+              $(obj).parents("tr").remove();
+              layer.msg('已删除!',{icon:1,time:1000});
+          });
+      }
+
+
+
+      function delAll (argument) {
+
+        var data = tableCheck.getData();
+  
+        layer.confirm('确认要删除吗？'+data,function(index){
+            //捉到所有被选中的，发异步进行删除
+            layer.msg('删除成功', {icon: 1});
+            $(".layui-form-checked").not('.header').parents('tr').remove();
+        });
+      }
+    </script>
+    <script>
+      var _hmt = _hmt || []; (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+   
+
+
+  //Demo
+  layui.use(['tree', 'layer'], function(){
+    var layer = layui.layer
+    ,$ = layui.jquery; 
+    
+    layui.tree({
+      elem: '#demo1' //指定元素
+      ,target: '_blank' //是否新选项卡打开（比如节点返回href才有效）
+      ,click: function(item){ //点击节点回调
+        //layer.msg('当前节名称：'+ item.name + '<br>全部参数：'+ JSON.stringify(item));
+         console.log(item);
+         if(item.alias == 1) {
+            document.getElementById("table").style.display = 'none';
+            document.getElementById("tab").style.display = 'block';
+            document.getElementById("frame").style.display = 'none';
+            document.getElementById("search").style.display = 'block';
+            document.getElementById("nav").style.display = 'block';
+
+            document.getElementById("HZNFS").style.display = 'none';   
+            document.getElementById("HZNF1").style.display = 'block';   
+            document.getElementById("HZNF2").style.display = 'none';   
+            document.getElementById("HZNF3").style.display = 'none';
+         } else if(item.alias == 2) {
+            document.getElementById("tab").style.display = 'none';
+            document.getElementById("table").style.display = 'block';
+            document.getElementById("frame").style.display = 'none';
+            document.getElementById("search").style.display = 'none';
+            document.getElementById("nav").style.display = 'none'; 
+         } else if( item.alias == 3 ){
+            // document.getElementById("tab").style.display = 'none';
+            // document.getElementById("table").style.display = 'none';
+            // document.getElementById("frame").style.display = 'none';
+            // document.getElementById("search").style.display = 'none';
+            // document.getElementById("nav").style.display = 'none';
+            // 
+            document.getElementById("table").style.display = 'none';
+            document.getElementById("tab").style.display = 'block';
+            document.getElementById("frame").style.display = 'none';
+            document.getElementById("search").style.display = 'block';
+            document.getElementById("nav").style.display = 'block';
+
+            document.getElementById("HZNFS").style.display = 'none';   
+            document.getElementById("HZNF1").style.display = 'none';   
+            document.getElementById("HZNF2").style.display = 'block';   
+            document.getElementById("HZNF3").style.display = 'none';
+         } else if( item.alias == 4 ) {
+            document.getElementById("table").style.display = 'none';
+            document.getElementById("tab").style.display = 'block';
+            document.getElementById("frame").style.display = 'none';
+            document.getElementById("search").style.display = 'block';
+            document.getElementById("nav").style.display = 'block';
+
+            document.getElementById("HZNFS").style.display = 'none';   
+            document.getElementById("HZNF1").style.display = 'none';   
+            document.getElementById("HZNF2").style.display = 'none';   
+            document.getElementById("HZNF3").style.display = 'block';
+         }
+      }
+      ,nodes: [ //节点
+        {
+          name: '2018年'
+          ,id: 1
+          ,alias: 1
+          ,children: [
+            {
+              name: '北京市'
+              ,id: 11
+              ,href: ''
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '中绿食品集团(234)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '天天食品集团(856)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: '上海市'
+              ,id: 11
+              ,href: ''
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '上海市食品集团(532)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '刘元食品集团(965)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: '天津市'
+              ,id: 11
+              ,href: ''
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '天津市食品集团(989)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '滨海食品集团(853)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: '江西省'
+              ,id: 11
+              ,href: ''
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '江西食品集团(678)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '九江食品集团(762)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: '广东省'
+              ,id: 11
+              ,href: ''
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '广州食品集团(945)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '深圳食品集团(846)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: '福建省'
+              ,id: 11
+              ,href: ''
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '厦门食品集团(695)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '福州食品集团(876)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: '浙江省'
+              ,id: 11
+              ,href: ''
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '杭州食品集团(856)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '杭州食品集团(856)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: '新疆省'
+              ,id: 11
+              ,href: ''
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '新疆食品集团(756)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '新疆食品集团(756)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: '湖北省'
+              ,id: 11
+              ,href: ''
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '武汉食品集团(952)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '武汉食品集团(952)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            },
+          ]
+        }, {
+          name: '2017年'
+          ,id: 2
+          ,alias: 1
+          ,children: [
+            {
+              name: '黑龙江'
+              ,id: 21
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '黑龙江食品集团(675)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '黑龙江食品集团(675)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        ,{
+          name: '2016年'
+          ,id: 3
+          ,alias: 1
+          ,id: 2
+          ,children: [
+            {
+              name: '江西'
+              ,id: 21
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '江西食品集团(866)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '江西食品集团(866)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },{
+          name: '2015年'
+          ,id: 3
+          ,alias: 1
+          ,id: 2
+          ,children: [
+            {
+              name: '上海'
+              ,id: 21
+              ,alias: 3
+              ,children: [
+                {
+                  name: '初次'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '上海食品集团(365)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                },
+                {
+                  name: '续展'
+                  ,id: 12
+                  ,alias: 4
+                  ,children: [
+                    {
+                      name: '上海食品集团(365)'
+                      ,id: 12
+                      ,alias: 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    });
+    
+    
+   
+   
+    layui.tree({
+      elem: '#demo2' //指定元素
+      ,nodes: createTree()
+    });
+    
+  });
+</script>
+
+
+  </body>
+
+</html>

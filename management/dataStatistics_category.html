@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>绿色食品数字档案管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/echarts.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <style>
+        .searchContent .layui-form-item{ margin-bottom: 0  }
+    </style>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a><cite>数据统计</cite></a>
+            <a><cite>按产品类别统计</cite></a>
+          </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon layui-icon-refresh-1" style="line-height:30px"></i></a>
+    </div>
+    <div class="x-body">
+
+      <div class="layui-row">
+          <div class="layui-col-xs5 " id="pie" style="height: 300px;"></div>
+          <div class="layui-col-xs6" id="echart" style="height: 300px;"></div>
+      </div>
+
+      <div class="layui-row" id="search" style="margin-top: 50px">
+
+        <div class="layui-form searchContent" action="" id="checkboxArea">
+          <div class="layui-form-item" pane="">
+            <label class="layui-form-label">省份：</label>
+            <div class="layui-input-block" id="province">
+              <input type="checkbox" name="Province" lay-skin="primary" title="江西">
+            </div>
+          </div>
+          <div class="layui-form-item" pane="">
+            <label class="layui-form-label">产品类型：</label>
+            <div class="layui-input-block" id="productType">
+              <input type="checkbox" name="ClassifyId" lay-skin="primary" title="禽畜产品">
+            </div>
+          </div>
+          <div class="layui-form-item" pane="">
+            <label class="layui-form-label">申请年份：</label>
+            <div class="layui-input-block" id="ApplicationYear">
+              <input type="checkbox" name="ApplicationYear" lay-skin="primary" title="2017">
+            </div>
+          </div>
+        </div>
+
+        <form class="layui-form layui-col-md10 x-so" lay-filter="example"  style="text-align: left;margin-bottom: 0px">
+          <button class="layui-btn" title="检索" lay-submit="" lay-filter="sreach" style="margin-left: 40px"><i class="layui-icon">&#xe615;</i></button>
+          <button class="layui-btn"  title="全部" ><i class="layui-icon" href="javascript:location.replace(location.href);">&#xe63c;</i></button>
+        </form>
+      </div>
+      
+      <!-- <div class="layui-row" style="margin-top: 50px">
+          
+      </div> -->
+      <table class="layui-hide" id="test" lay-filter="test" style="margin-top: 30px"></table>
+
+    </div>
+  </body>
+  <script src="common/server.js"></script>
+  <script src="common/common.js"></script>
+  <script>
+
+
+      //获取省份
+      let province = sendAjax(Server.service.GetCondition, {"Type": 0} );
+      let provinceEle = '';
+      let provinceArr = [];
+      for(let i=0; i<province.length; i++) {
+          provinceEle += `
+              <input type="checkbox" name="${province[i].Province}" lay-skin="primary" title="${province[i].Province}">
+          `
+          provinceArr.push(province[i].Province);
+      }
+      $('#province').html(provinceEle);
+
+      //获取产品类型
+      let productType = sendAjax(Server.service.GetClassifyList, {"Type": 0} );
+      let productTypeEle = '';
+      let productTypeArr = [];
+      for(let i=0; i<productType.length; i++) {
+          productTypeEle += `
+              <input type="checkbox" name="${productType[i].name}" lay-skin="primary" title="${productType[i].name}">
+          `
+          productTypeArr.push(productType[i].name);
+      }
+      $('#productType').html(productTypeEle);
+
+      //获取申请年份
+      let ApplicationYear = sendAjax(Server.service.GetCondition, {"Type": 1} );
+      let ApplicationYearEle = '';
+      let yearArr = [];
+      for(let i=0; i<ApplicationYear.length; i++) {
+          ApplicationYearEle += `
+              <input type="checkbox" name="${ApplicationYear[i].ApplicationYear}" lay-skin="primary" title="${ApplicationYear[i].ApplicationYear}">
+          `
+          yearArr.push(ApplicationYear[i].ApplicationYear);
+      }
+      $('#ApplicationYear').html(ApplicationYearEle);
+
+
+      //初始化数据
+      let echartData = sendAjax(Server.service.GetArchivesCountByYear, {'year': yearArr.join(','), 'Province': provinceArr.join(','), 'City': '', 'IsFirst': '', 'ClassifyName': productTypeArr[0], 'ShenBaoType': '' } );
+      //console.log(echartData);
+      
+      //生成表头
+      function createThead(echartData) {
+          let colsT = [];
+          if(echartData[0].name == '初次' || echartData[0].name == '续展') {
+              colsT.push({field:'province', title:'类型', sort: true, width: 100});
+          }else if( /^[0-9]+$/.test(echartData[0].name) ) { 
+              colsT.push({field:'province', title:'年份', sort: true, width: 100});
+          }else {
+              colsT.push({field:'province', title:'省/市', sort: true, width: 100});
+          }
+          
+          let colsyear = JSON.parse(echartData[0].year);
+          for (let i=0; i<colsyear.length; i++) {
+              let obj = {};
+              obj.field = 'year'+i;
+              obj.title = colsyear[i];
+              obj.width = 110;
+              colsT.push(obj);
+          }
+          return colsT;
+      }
+      let cols = createThead(echartData);
+
+      //生成表数据
+      function createTbody(echartData) {
+          let Indexes = [];
+          for (let i=0; i<echartData.length; i++) {
+              echartData[i].year = JSON.parse(echartData[i].year);
+              let yeara = JSON.parse(echartData[i].data);   //各年个数数组
+              //console.log(yeara);
+              let bb = {};
+              bb.province = echartData[i].name;   //省份
+              for(let j=0; j<yeara.length; j++) {
+                  //console.log(yeara[j])
+                  let yearKry = 'year'+j;
+                  bb[yearKry] = yeara[j];
+              }
+              Indexes.push(bb);
+          }
+          return Indexes
+      }
+      let Indexes = createTbody(echartData);
+   
+      layui.use(['laydate', 'table', 'form'], function(){
+          let laydate = layui.laydate;
+          let table = layui.table;
+          let form = layui.form;
+          //数据表格
+          table.render({
+            elem: '#test',
+            toolbar: true,
+            title: '用户数据表',
+            cols: [cols],
+            id: 'reload',
+            data: Indexes,
+            page: true
+          });
+
+          //监听提交
+          form.on('submit(sreach)', function(data){
+            //console.log(data.field);
+            let searchData = data.field;
+            searchData.Province = check($('#province'));
+            searchData.ApplicationYear = check($('#ApplicationYear'));
+            searchData.ClassifyName = check($('#productType'));
+
+            if( (searchData.Province == '' && searchData.ApplicationYear == '') || (searchData.Province == '' && searchData.ClassifyName == '' ) || (searchData.ApplicationYear == '' && searchData.ClassifyName == '') ) {
+                layer.alert("至少选择两个检索条件！", {icon: 5});
+                return false;
+            }else {
+                if( searchData.Province.split(',').length > 1 && searchData.ApplicationYear.split(',').length > 1 && searchData.ClassifyName.split(',').length > 1 ) {
+                    layer.alert("至少有一个检索条件为单选！", {icon: 5});
+                    return false;
+                }
+            }
+
+           
+            //console.log(searchData);
+            let Indexes3 = sendAjax(Server.service.GetArchivesCountByYear, {
+                'year': searchData.ApplicationYear, 
+                'Province': searchData.Province,
+                'ClassifyName': searchData.ClassifyName,
+
+                'City': '', 
+                'IsFirst': '',
+                'ShenBaoType': '' 
+            });
+            //console.log(Indexes3);
+            let getProvince2 = [];
+            let newIndexes = [];
+            for(let i=0; i<Indexes3.length; i++) {
+                let v = {};
+                v.data = JSON.parse(Indexes3[i].data);
+                getProvince2.push(Indexes3[i].name);
+                v.type = 'bar';
+                v.name = Indexes3[i].name;
+                v.year = JSON.parse(Indexes3[i].year);
+                newIndexes.push(v);
+            }
+            //console.log(newIndexes);
+            create(getProvince2, newIndexes);
+
+            let searchCols = createThead(Indexes3);
+            let cc = createTbody(Indexes3);
+            table.render({
+              elem: '#test',
+              toolbar: true,
+              title: '用户数据表',
+              cols: [searchCols],
+              id: 'reload',
+              data: cc,
+              page: true
+            });
+            return false;
+          });
+          //年选择器
+          laydate.render({
+            elem: '#year',
+            type: 'year'
+          });
+      });
+      
+      
+      
+      //绘制柱状图
+      let getProvince = [];
+      for(let i=0; i<echartData.length; i++) {
+          getProvince.push(echartData[i].name)
+          echartData[i].type = 'bar';
+          echartData[i].data = JSON.parse(echartData[i].data);
+      }
+
+      create(getProvince, echartData);
+      function create(provinceArr, echartData) {
+          
+          let myChart = echarts.init(document.getElementById('echart'));
+          myChart.clear();
+          let option = {
+              title: {
+                  text: '产品类别档案数量统计'
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                      type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                  }
+              },
+              toolbox: {
+                  show: true,
+                  orient: 'vertical',
+                  left: 'right',
+                  top: 'center',
+                  feature: {
+                      mark: {show: true},
+                      dataView: {show: true, readOnly: false},
+                      magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                      restore: {show: true},
+                      saveAsImage: {show: true}
+                  }
+              },
+              legend: {
+                  data: provinceArr
+              },
+              grid: {
+                  left: '3%',
+                  right: '4%',
+                  bottom: '3%',
+                  containLabel: true
+              },
+              xAxis : [
+                  {
+                      type : 'category',
+                      data : echartData[0].year,
+                      axisTick: {
+                          alignWithLabel: true
+                      },
+                      axisLabel: {
+                         interval:0,
+                         rotate:60
+                      },
+                  }
+              ],
+              yAxis : [
+                  { type : 'value', minInterval:1}
+              ],
+              series : echartData
+          };
+          myChart.setOption(option);
+      }
+      
+      //获取勾选值
+      function check(ele) {
+          let obtainedYearCheck = '';
+          ele.find('input').each(function(i){
+              if($(this).prop('checked')) {
+                  obtainedYearCheck += $(this).attr('name') + ','; 
+              }
+          });
+          obtainedYearCheck=obtainedYearCheck.substring(0,obtainedYearCheck.length-1)
+          return obtainedYearCheck;
+      }
+     
+
+      //绘制饼图   GetCountByClassifyId
+      let pieData = sendAjax(Server.service.GetCountByClassifyId, { 'SeachName': '产品类别' } );
+      //console.log(pieData);
+      let title = [];
+      let content = [];
+      for(let i=0; i<pieData.length; i++) {
+          title.push(pieData[i].Classify);
+          content.push({'value': pieData[i].count, 'name': pieData[i].Classify})
+      }
+      let myPie = echarts.init(document.getElementById('pie'));
+      let pieOption = {
+          title : {
+              text: '产品类别档案数量统计',
+              subtext: '',
+              x:'center'
+          },
+          tooltip : {
+              trigger: 'item',
+              formatter: "{a} <br/>{b} : {c} ({d}%)"
+          },
+          legend: {
+              orient: 'vertical',
+              left: 'left',
+              data: title
+          },
+          series : [
+              {
+                  name: '产品类别',
+                  type: 'pie',
+                  radius : '55%',
+                  center: ['50%', '60%'],
+                  data: content,
+                  itemStyle: {
+                      emphasis: {
+                          shadowBlur: 10,
+                          shadowOffsetX: 0,
+                          shadowColor: 'rgba(0, 0, 0, 0.5)'
+                      }
+                  }
+              }
+          ]
+      };
+      myPie.setOption(pieOption);
+  </script>
+
+</html>

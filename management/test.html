@@ -1,0 +1,142 @@
+<!DOCTYPE html> 
+<html> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+  <title></title> 
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+ </head> 
+ <body> 
+  <div style="margin: 50px auto;width: 400px; text-align: center;">
+      <input type="text" id="int">
+      <input type="button" value="检索" id="search"><br/>
+
+      姓氏：<input type="text" id="firstname"><br/>
+      名称：<input type="text" id="lastname"><br/>
+      email：<input type="text" id="email"><br/>
+      <input type="button" value="添加" id="add"><br/>
+
+      <table style=" margin-top: 10px" border="1">
+        <thead>
+          <tr>
+              <th>编号</th>
+              <th>姓氏</th>
+              <th>名称</th>
+              <th>email</th>
+              <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="tb">
+          
+        </tbody>
+      </table>
+
+      <br/><br/>
+      <input type="text" id="message">
+      <input type="button" value="留言" id="mes">
+  </div>
+    
+
+  <script type="text/javascript"> 
+
+    //留言
+    $('#mes').click(function() {
+        let message = $('#message').val();
+        $.ajax({
+          url: "http://localhost:1000/myFile.php?type=writeFile&message=" + message,
+          type: "get",
+          //data: { "message" : message },//序列化的数据
+          async: false, 
+          success: function (data, textStatus, xhr) {
+              console.log(JSON.parse(data));
+          },
+          error: function () {
+              //alert( "系统错误!")
+          }
+        })
+    })
+
+
+    $('#add').click(function() {
+        var firstname = $('#firstname').val();
+        var lastname = $('#lastname').val();
+        var email = $('#email').val();
+        var type = {
+            "firstname": firstname,
+            "lastname": lastname,
+            "email": email
+        }
+        $.ajax({
+          url: "http://localhost:1000/api.php?action=add_row",
+          type: "post",
+          data: type,//序列化的数据
+          async: false, 
+          success: function (data, textStatus, xhr) {
+              var a = JSON.parse(data);
+              if(a.resultCode == 200) {
+                  getList('');
+              }
+          },
+          error: function () {
+              //alert( "系统错误!")
+          }
+        })
+
+    })
+
+    function del(id) {
+        $.ajax({
+          url: "http://localhost:1000/api.php?action=del_row&id=" + id,
+          type: "get",
+          //data: type,//序列化的数据
+          async: false, 
+          success: function (data, textStatus, xhr) {
+              var a = JSON.parse(data);
+              if(a.resultCode == 200) {
+                  getList('');
+              }
+              
+          },
+          error: function () {
+              //alert( "系统错误!")
+          }
+        })
+    }
+    function getList(a){
+        $.ajax({
+          url: "http://localhost:1000/api.php?action=init_data_list&search=" + a,
+          type: "get",
+          //data: type,//序列化的数据
+          async: false, 
+          success: function (data, textStatus, xhr) {
+              console.log(JSON.parse(data));
+              var text = JSON.parse(data).data;
+              console.log(text);
+              var content = '';
+              for(var i=0; i<text.length; i++) {
+                 content += `
+                    <tr>
+                      <td>${text[i].id}</td>
+                      <td>${text[i].firstname}</td>
+                      <td>${text[i].lastname}</td>
+                      <td>${text[i].email}</td>
+                      <td><button onclick="del(${text[i].id})">删除</button></td>
+                    </tr>
+                 `
+              }
+              $('#tb').html(content);
+          },
+          error: function () {
+              //alert( "系统错误!")
+          }
+        })   
+    }
+    getList(''); 
+    $('#search').click(function() {
+        var txt = $("#int").val();
+        getList(txt);
+    })
+     
+  </script> 
+ </body> 
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>绿色食品数字档案管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      xblock div{ padding: 5px;  }
+      xblock div ul{ list-style: none; display: inline-block; }
+      xblock div ul li{ float: left; padding: 0 10px; }
+      xblock div ul li a{ color: blue }
+    </style>
+  </head>
+  
+  <body>
+      <div class="x-nav">
+        <span class="layui-breadcrumb">
+          <a href="">首页</a>
+          <a>
+            <cite>按省份查档</cite></a>
+        </span>
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+          <i class="layui-icon layui-icon-refresh-1" style="line-height:30px"></i></a>
+      </div>
+      <div class="x-body">
+        <div class="layui-row" id="search">
+          <form class="layui-form layui-col-md12 x-so" lay-filter="fullText" style="text-align: left;">
+              <input name="FullText" placeholder="请输入全文关键字检索" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\.]/g, '')" class="layui-input" style="margin-left: 1%;width: 70%">
+              <button class="layui-btn" title="检索" lay-submit="" lay-filter="fullTextSreach"><i class="layui-icon">&#xe615;</i></button>
+          </form>
+        </div>
+
+        <div class="layui-row" id="search">
+            <form class="layui-form layui-col-md12 x-so" lay-filter="example" style="text-align: left;margin-bottom: 0px">
+              <input class="layui-input" placeholder="请输入档案编号" name="Original" style="margin-left: 1%">
+              <input class="layui-input" placeholder="请输入市" name="City">
+              <input class="layui-input" placeholder="请输入县" name="County">
+              <input class="layui-input" placeholder="请输入企业名称" name="CompanyName" >
+              <input type="text" name="ProductName"  placeholder="请输入产品" autocomplete="off" class="layui-input">
+              <div class="layui-input-inline">
+                <select name="IsFirst">
+                  <option value="">请选择初次/续展</option>
+                  <option value="1">初次</option>
+                  <option value="0">续展</option>
+                </select>
+              </div><br/>
+              <div class="layui-form-mid " style="margin-left: 1%; color: red">注：需精确检索请加双引号,多个检索请用逗号隔开。</div>
+
+              <div class="layui-form searchContent" action="" id="checkboxArea">
+                  <div class="layui-form-item" pane="">
+                    <label class="layui-form-label">获证年份：</label>
+                    <div class="layui-input-block" id="ApplicationYear">
+                      <input type="checkbox" name="ApplicationYear" lay-skin="primary" title="2017">
+                    </div>
+                  </div>
+              </div>
+
+              <button class="layui-btn" title="检索" lay-submit="" lay-filter="sreach" style="margin-left: 40px"><i class="layui-icon">&#xe615;</i></button>
+              <a class="layui-btn layui-btn-small" style="" href="javascript:location.replace(location.href);" title="全部"><i class="layui-icon" href="javascript:location.replace(location.href);">&#xe63c;</i></a>
+
+            </form>
+        </div>
+
+         
+        <p style="margin-bottom: 10px;text-align: right;padding-right: 20px; font-size: 14px">合计：<span id="count" style="font-size: 14px"></span>条</p>
+        <div id="tab" class="layui-collapse" lay-filter="test">
+          
+          <!-- <div class="layui-colla-item">
+            <h2 class="layui-colla-title">中绿食品集团有限公司</h2>
+            <div class="layui-colla-content">
+          
+              <div class="layui-form-item"> 
+                <div class="layui-inline">
+                  <label class="layui-form-label">企业名称：</label>
+                  <div class="layui-input-inline">
+                    <input type="tel" name="phone" lay-verify="required|text" class="layui-input" placeholder="中绿食品集团有限公司" disabled>
+                  </div>
+                </div>
+                <div class="layui-inline">
+                  <label class="layui-form-label">营业执照：</label>
+                  <div class="layui-input-inline">
+                    <input type="tel" name="phone" lay-verify="required|text" class="layui-input" placeholder="12334234" disabled>
+                  </div>
+                </div>
+              </div> 
+              <div class="layui-form-item">
+                <label class="layui-form-label">地址</label>
+                <div class="layui-input-block">
+                  <input type="text" name="identity" lay-verify="identity" placeholder="北京市朝阳区" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">产品</label>
+                <div class="layui-input-block">
+                  <input type="text" name="identity" lay-verify="identity" placeholder="猪肉，肌肉，牛肉" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-form-item"> 
+                <div class="layui-inline">
+                  <button class="layui-btn" onclick="x_admin_show('编辑','./member-add.html',1500,800)"><i class="layui-icon">&#xe642;</i>编辑</button>
+                  <a class="layui-btn" href="pdf1.html" title="查看PDF" target="_blank">
+                    <i class="layui-icon">&#xe631;</i>查看PDF
+                  </a>
+                </div>
+                
+              </div>     
+            </div>
+          </div> -->
+
+        </div>
+       
+        <div id="page" style="text-align: center"></div>
+      </div>
+    
+    <script src="common/server.js"></script>
+    <script src="common/common.js"></script>
+    <script>
+        let provinceName = decodeURI( getUrlParam('province') );   //获取地址栏参数
+        //console.log( decodeURI(provinceName) );
+        //获取申请年份
+        let ApplicationYear = sendAjax(Server.service.GetCondition, {"Type": 1} );
+        let ApplicationYearEle = '';
+        for(let i=0; i<ApplicationYear.length; i++) {
+            ApplicationYearEle += `
+                <input type="checkbox" name="${ApplicationYear[i].ApplicationYear}" lay-skin="primary" title="${ApplicationYear[i].ApplicationYear}">
+            `
+        }
+        $('#ApplicationYear').html(ApplicationYearEle);
+        //获取产品类型
+        let productType = sendAjax(Server.service.GetClassifyList, {"Type": 0} );
+        let productTypeEle = '<option value="">请选择产品类别</option>';
+        for(let i=0; i<productType.length; i++) {
+            //console.log(productType[i].id);
+            productTypeEle += `
+                <option value="${productType[i].id}">${productType[i].name}</option>
+            `
+        }
+        $('.category').html(productTypeEle);
+
+        //获取档案列表
+        let Indexes;
+        Indexes = sendAjax(Server.service.GetAllArchives, {"draw": 2, 'start': 0, 'length': 10, 'retrievalInfo': JSON.stringify({'Province': provinceName, 'State': 3}) } );
+        $('#count').html(Indexes.recordsTotal);
+        let search = '';   //搜索栏获取的最终数据
+        //console.log(Indexes);
+        creact(Indexes);
+        
+        let checkboxList = {};
+        layui.use(['table', 'form', 'laypage'], function(){
+            let form = layui.form;
+            let laypage = layui.laypage;
+            
+            //全文检索监听提交
+            form.on('submit(fullTextSreach)', function(data){    //FullTextSearch
+                sendAjax2(Server.service.FullTextSearch, {
+                    'draw': 0,
+                    'start': 0,
+                    'state': 1,
+                    'length': 10,
+                    'FullText': data.field.FullText,
+                    'Province': provinceName,
+                    'ApplicationYear': ''
+                }, function(res) {
+                    //console.log(res);
+                    creact(res);
+                    $('#count').html(res.recordsTotal);
+                    //console.log(JSON.parse(res.data));
+                    laypage.render({
+                      elem: 'page',
+                      count: res.recordsTotal,
+                      layout: ['prev', 'page', 'next', 'limit'],
+                      jump: function(obj, first){
+                          if(!first) {
+                              let start = obj.limit*(obj.curr-1); 
+                              console.log(start); //当前页  
+                              let paging = sendAjax(Server.service.FullTextSearch, {
+                                  'draw': 0,
+                                  'start': start,
+                                  'state': 1,
+                                  'length': obj.limit,
+                                  'Province': provinceName,
+                                  'ApplicationYear': '',
+                                  'FullText': data.field.FullText
+                              })
+                              //console.log(JSON.parse(paging.data));
+                              creact(paging);
+                              layui.element.init();
+                          }
+                      }
+                    });
+                    layui.element.init();
+                });
+                return false;
+            })
+            //检索监听提交
+            form.on('submit(sreach)', function(data){
+              //console.log(data.field);
+              checkboxList = data.field;
+              let searchData = data.field;
+              searchData.State = 3;
+              searchData.ApplicationYear = check($('#ApplicationYear'));
+              searchData.Province = provinceName;
+              search = searchData;
+              //console.log(searchData);
+              let resetData = sendAjax(Server.service.GetAllArchives, {
+                  'draw': 0,
+                  'start': 0,
+                  'length': 10,
+                  'retrievalInfo': JSON.stringify(searchData)
+              })
+              $('#count').html(resetData.recordsTotal);
+              //console.log(JSON.parse(resetData.data));
+              creact(resetData);
+              laypage.render({
+                elem: 'page',
+                count: resetData.recordsTotal,
+                layout: ['prev', 'page', 'next', 'limit'],
+                jump: function(obj, first){
+                    if(!first) {
+                        let start = obj.limit*(obj.curr-1); 
+                        console.log(start); //当前页  
+
+                        let paging = sendAjax(Server.service.GetAllArchives, {
+                            'draw': 0,
+                            'start': start,
+                            'length': obj.limit,
+                            'retrievalInfo': JSON.stringify(searchData)
+                        })
+                        //console.log(JSON.parse(paging.data));
+                        creact(paging);
+                        layui.element.init();
+                    }
+                }
+              });
+              layui.element.init();
+              return false;
+
+            });
+
+            laypage.render({
+              elem: 'page',
+              count: Indexes.recordsTotal,
+              layout: ['prev', 'page', 'next', 'limit'],
+              jump: function(obj, first){
+                  if(!first) {
+                      let start = obj.limit*(obj.curr-1);  
+                      //console.log(start); //当前页  
+
+                      let paging = sendAjax(Server.service.GetAllArchives, {
+                          'draw': 0,
+                          'start': start,
+                          'length': obj.limit,
+                          'retrievalInfo': JSON.stringify({'Province': provinceName,'State': 3})
+                      })
+                      //console.log(JSON.parse(paging.data));
+                      creact(paging);
+                      layui.element.init();
+                  }
+                  
+              }
+            });
+
+
+            //勾选刷新列表
+            /*let loadingIndex;
+            $('#checkboxArea').on('click', function() {
+                loadingIndex = layer.load(2);  //显示加载层
+                let selectData = checkboxList;
+                selectData.State = 3;
+                selectData.ApplicationYear = check($('#ApplicationYear'));
+                selectData.Province = provinceName;
+                search = selectData;
+                
+                sendAjax2(Server.service.GetAllArchives, {
+                    'draw': 0,
+                    'start': 0,
+                    'length': 10,
+                    'retrievalInfo': JSON.stringify(selectData)
+                }, function(resetData) {
+                    creact(resetData);
+                    laypage.render({
+                      elem: 'page',
+                      count: resetData.recordsTotal,
+                      layout: ['prev', 'page', 'next', 'count'],
+                      jump: function(obj, first){
+                          if(!first) {
+                              let start = 10*(obj.curr-1) 
+                              //console.log(start); //当前页  
+
+                              let paging = sendAjax(Server.service.GetAllArchives, {
+                                  'draw': 0,
+                                  'start': start,
+                                  'length': 10,
+                                  'retrievalInfo': JSON.stringify(selectData)
+                              })
+                              //console.log(JSON.parse(paging.data));
+                              creact(paging);
+                              layui.element.init();
+                          }
+                      }
+                    });
+                    layer.close(loadingIndex);   //关闭加载层
+                })
+                
+                layui.element.init();
+ 
+            })*/
+
+        });
+
+
+        //获取勾选值
+        function check(ele) {
+            let obtainedYearCheck = '';
+            ele.find('input').each(function(i){
+                if($(this).prop('checked')) {
+                    obtainedYearCheck += $(this).attr('name') + ','; 
+                }
+            });
+            obtainedYearCheck=obtainedYearCheck.substring(0,obtainedYearCheck.length-1)
+            return obtainedYearCheck;
+        }
+
+        function creact(Indexes) {
+            let IndexesData = JSON.parse(Indexes.data);
+            //console.log(IndexesData);
+            if(IndexesData.length == 0) {
+                 $('#tab').html("<h2 style='text-align:center'>暂无数据</h2>");
+            } else {
+                let IndexesEle = '';
+                for(let i=0; i<IndexesData.length; i++) {
+                    if(IndexesData[i].Product) {
+                          let product = JSON.parse(IndexesData[i].Product);
+                      }
+                    /*if(product !== ''){
+                        let productEle = '';
+                        for(let k=0; k<product.length; k++) {
+                            productEle += product[k].ProductName + ','
+                        }
+                        IndexesData[i].Product = productEle;
+                    }*/
+                    //let pdfUrl = encodeURI(encodeURI('pdf1.html?url=' + IndexesData[i].BasicFile )); 
+                    let pdfUrl = encodeURI(encodeURI('/pdfjs/web/viewer.html?url=' + IndexesData[i].BasicFile )); 
+                    IndexesEle += `
+                        <div class="layui-colla-item">
+                          <h2 class="layui-colla-title">${IndexesData[i].CompanyName}</h2>
+                          <div class="layui-colla-content">
+
+                            <div class="layui-form-item"> 
+                              <div class="layui-inline">
+                                <label class="layui-form-label">企业名称：</label>
+                                <div class="layui-input-inline">
+                                  <input type="tel" name="phone" lay-verify="required|text" class="layui-input" value="${IndexesData[i].CompanyName}" disabled>
+                                </div>
+                              </div>
+                              <div class="layui-inline">
+                                <label class="layui-form-label">营业执照：</label>
+                                <div class="layui-input-inline">
+                                  <input type="tel" name="phone" lay-verify="required|text" class="layui-input" value="${IndexesData[i].RegistrationNo}" disabled>
+                                </div>
+                              </div>
+                            </div> 
+                            <div class="layui-form-item">
+                              <label class="layui-form-label">地址</label>
+                              <div class="layui-input-block">
+                                <input type="text" name="identity" lay-verify="identity" value="${IndexesData[i].Address}" class="layui-input" disabled>
+                              </div>
+                            </div>
+                            <div class="layui-form-item">
+                              <label class="layui-form-label">产品</label>
+                              <div class="layui-input-block">
+                                <input type="text" name="identity" lay-verify="identity" placeholder="${IndexesData[i].ProductName}" class="layui-input" disabled>
+                              </div>
+                            </div>
+                            <div class="layui-form-item"> 
+                              <div class="layui-inline">
+                                <button class="layui-btn edit" style="display:none" onclick="x_admin_show('编辑','./recordList-edit.html?id=${IndexesData[i].ID}')"><i class="layui-icon">&#xe642;</i>编辑</button>
+                                <button class="layui-btn" onclick="x_admin_show('详情','./recordList-detail.html?id=${IndexesData[i].ID}')"><i class="layui-icon">&#xe66b;</i>详情</button>
+                                <a class="layui-btn" href="${pdfUrl}" title="查看PDF" target="_blank">  
+                                  <i class="layui-icon">&#xe631;</i>查看PDF
+                                </a>
+                              </div>
+                              
+                            </div>     
+                          </div>
+                        </div>
+                    `
+                }
+                $('#tab').html(IndexesEle);
+                let RoleId = getCookie('RoleId');
+                if(RoleId == 1) {  //编辑权限控制
+                    $('.edit').show();
+                }
+            }
+            
+        }
+    </script>
+   
+
+
+  </body>
+
+</html>

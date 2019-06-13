@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>绿色食品数字档案管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a>
+          <cite>个人中心</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon layui-icon-refresh-1" style="line-height:30px"></i></a>
+    </div>
+    <div class="x-body">
+        <form class="layui-form" lay-filter="useForm">
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+                  <span class="x-red">*</span>登录名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="username" name="LoginName" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>将会成为您唯一的登录名
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="username1" class="layui-form-label">
+                  <span class="x-red">*</span>姓名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="username1" name="Name" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+             
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>手机
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="phone" name="Phone" required="" lay-verify="phone"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>邮箱
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_email" name="Email" required="" lay-verify="email"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+            
+          <div class="layui-form-item" style="display: none;">
+              <label class="layui-form-label"><span class="x-red">*</span>角色</label>
+              <div class="layui-input-block" id="RoleList">
+                <input type="radio" name="RoleId1" lay-skin="primary" title="管理员">
+                <input type="radio" name="RoleId2" lay-skin="primary" title="普通用户">
+              </div>
+          </div>
+
+          <div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">&nbsp;</span>旧密码
+              </label>
+              <div class="layui-input-inline">
+                  <input type="password" id="oldPassword" name="oldPassword" autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  如无需修改密码可不填,密码必须6到12个字符
+              </div>
+          </div>
+          
+          <div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">&nbsp;</span>新密码
+              </label>
+              <div class="layui-input-inline">
+                  <input type="password" id="L_pass" name="Password" autocomplete="off" class="layui-input" lay-verify="verifypass">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  如无需修改密码可不填,密码必须6到12个字符
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+                  <span class="x-red">&nbsp;</span>确认新密码
+              </label>
+              <div class="layui-input-inline">
+                  <input type="password" id="L_repass" name="rePassword" autocomplete="off" class="layui-input" lay-verify="repass">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  如无需修改密码可不填,密码必须6到12个字符
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label"></label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  修改
+              </button>
+          </div>
+      </form>
+    </div>
+    <script src="common/server.js"></script>
+    <script src="common/common.js"></script>
+    <script>
+
+        let ID = getCookie('Id');   //获取地址栏参数
+        //console.log(ID);
+        
+        //获取角色列表   
+        let RoleList = sendAjax(Server.service.GetRole, {});
+        //console.log(RoleList);
+        let RoleEle = '';
+        for(let i=0; i<RoleList.length; i++) {
+            RoleEle += `<input type="radio" name="RoleName" data-id="${RoleList[i].ID}" lay-skin="primary" title="${RoleList[i].Name}">`
+        }
+        $('#RoleList').html(RoleEle);
+
+        let details = [];
+        if(ID) {
+            details = sendAjax(Server.service.GetUserInfo, {'userid': ID});
+            details.rePassword = details.Password;
+            let RoleList = JSON.parse(details.RoleList);
+            //console.log(RoleList);
+            for(let i=0; i<RoleList.length; i++) {
+                $('#RoleList').find('input').each(function(j){
+                    if($(this).data('id') == RoleList[i].RoleId) {
+                        $(this).attr('checked', 'checked')
+                    }
+                });
+            }
+        }
+
+        layui.use(['form','layer'], function(){
+          $ = layui.jquery;
+          let form = layui.form,
+          layer = layui.layer;
+          
+          form.val('useForm', details);   //表单初始赋值
+          $('#L_pass').val("");
+          $('#L_repass').val("");
+
+          //自定义验证规则
+          form.verify({
+            nikename: function(value){
+              if(value.length < 5){
+                return '昵称至少得5个字符啊';
+              }
+            },
+            pass: [/(.+){6,12}$/, '密码必须6到12位'],
+            repass: function(value){
+                if($('#L_pass').val()!=$('#L_repass').val()){
+                    return '两次密码不一致';
+                }
+            },
+            verifypass: function(value) {
+                if($('#oldPassword').val() != '' ){
+                    let regEn = /(.+){6,12}$/;
+                    if($('#L_pass').val() == "") {
+                        return "新密码不能为空";
+                    }
+                    if( !regEn.test($('#L_pass').val()) ){
+                        return "密码必须6到12位";
+                    }
+                } 
+            }
+          });
+
+          //监听提交
+          form.on('submit(add)', function(data){
+            //console.log(data.field);
+            let sendData = data.field;
+            sendData.RoleId = check($('#RoleList'));
+
+            sendAjax1(Server.service.AddorEditUser, {
+                'ID': ID,
+                'jsonStr': JSON.stringify(sendData)
+            }, function(data) {
+                if(data.success == 1) {
+                    layer.alert(data.message, {icon: 6});
+                } else {
+                    return layer.alert(data.message, {icon: 5});
+                }
+            })
+
+            return false;
+          });
+        });
+
+        //获取勾选值
+        function check(ele) {
+            let obtainedYearCheck = '';
+            ele.find('input').each(function(i){
+                if($(this).prop('checked')) {
+                    obtainedYearCheck += $(this).data('id') + ','; 
+                }
+            });
+            obtainedYearCheck=obtainedYearCheck.substring(0,obtainedYearCheck.length-1)
+            return obtainedYearCheck;
+        }
+        
+    </script>
+    
+  </body>
+
+</html>

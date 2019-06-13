@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{ background-color: black; }
+        .pdfClass{
+            border:1px solid black;
+            margin-left: 18%;
+        }
+        #fixed{ position: fixed; top: 20%; right: 1%; }
+        #fixed button{ display: block; width: 150px; text-align: left; }
+        #fixed span{ color: white; }
+    </style>
+    <script src="http://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <script src="js/jquery-1.4.4.min.js"></script>
+    <script src="common/server.js"></script>
+    <script src="common/common.js"></script>
+</head>
+<body>
+    <div id="fixed">
+      <button id="prev" onclick="onPrevPage()">上一页</button>
+      <!-- <button onclick="one(1)">1</button> -->
+      <!-- <button onclick="one(2)">2</button> -->
+      <button onclick="one(3)">填写说明</button>
+      <button onclick="one(4)">保证声明</button>
+      <button onclick="one(5)">申请人基本情况</button>
+      <button onclick="one(6)">申请产品情况</button>
+      <button onclick="one(7)">原料供应情况</button>
+      <button onclick="one(8)">使用菌调查表</button>
+      <button onclick="one(9)">填表说明</button>
+      <button onclick="one(10)">产品基本情况</button>
+      <button onclick="one(11)">基质组成情况</button>
+      <button onclick="one(12)">污染控制管理</button>
+      <button onclick="one(13)">用水情况</button>
+      <button onclick="one(14)">废弃物处理、环境保护</button>
+      <button onclick="one(15)">产品加工调查表</button>
+      <button onclick="one(30)">目录</button>
+      <button onclick="one(72)">监视测量装置控制程序</button>
+      <button onclick="one(122)">清晰消毒作业指导书</button>
+      <button onclick="one(121)">GMP卫生管理规范</button>
+      <button onclick="one(151)">滑子磨栽培终止收购合同</button>
+      <button onclick="one(176)">基地环境现状调查报告</button>
+      <button onclick="one(175)">省级工作机构初审报告</button>
+      <button onclick="one(189)">绿色食品标志许可审查报告</button>
+      <button onclick="one(201)">收购协议</button>
+      <button onclick="one(208)">产地环境质量监测报告</button>
+      <button onclick="one(218)">检验报告</button>
+      <input type="number" style="width: 70px;" onblur="int(this)"  >
+      <button id="next" onclick="onNextPage()">下一页</button>
+      
+      &nbsp; &nbsp;
+      <span>页数: <span id="page_num"></span> / <span id="page_count"></span></span>
+    </div>
+
+    <div class="wrapper" id="pdf-container">
+    </div>
+
+    
+</body>
+<script>
+
+
+    var pageNumBS = 1;
+    var pageNum;
+    //程序只能在服务器上运行
+    window.onload = function () {
+
+        var url = 'http://10.123.56.198:8011/File' + getUrlParam('url');   //获取地址栏参数
+        console.log(url);
+        //创建
+        function createPdfContainer(id,className) {
+            var pdfContainer = document.getElementById('pdf-container');
+            var canvasNew =document.createElement('canvas');
+            canvasNew.id = id;
+            canvasNew.className = className;
+            pdfContainer.appendChild(canvasNew);
+        };
+
+        //渲染pdf
+        //给定pdf宽度
+        function renderPDF(pdf,i,id) {
+            pdf.getPage(i).then(function(page) {
+
+                var scale = 1.8;
+                var viewport = page.getViewport(scale);
+
+                //  准备用于渲染的 canvas 元素
+                var canvas = document.getElementById(id);
+                var context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // 将 PDF 页面渲染到 canvas 上下文中
+                var renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+            });
+        };
+        //创建和pdf页数等同的canvas数
+        function createSeriesCanvas(num,template) {
+            var id = '';
+            for(var j = 1; j <= num; j++){
+                id = template + j;
+                createPdfContainer(id,'pdfClass');
+            }
+        }
+
+       //加载通过<脚本>标记,创建快捷方式来访问PDF。js出口。
+        var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+        // workerSrc 指定路径.
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'http://mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+        //读取pdf文件，并加载到页面中
+        function loadPDF(fileURL) {
+            pdfjsLib.getDocument( {url:fileURL, rangeChunkSize:6553616, disableAutoFetch:0} ).then(function(pdf) {
+                //用 promise 获取页面
+                var id = '';
+                var idTemplate = 'cw-pdf-';
+                pageNum = pdf.numPages;
+                document.getElementById('page_count').textContent = pageNum;   
+                document.getElementById('page_num').textContent = pageNumBS;  
+                console.log(pageNum);
+                //根据页码创建画布
+                
+                createSeriesCanvas(pageNum,idTemplate);
+                //将pdf渲染到画布上去
+                for (var i = 1; i <= pageNum; i++) {
+                    id = idTemplate + i;
+                    renderPDF(pdf,i,id);
+                }
+
+            });
+        }
+        //如果在本地运行，需要从服务器获取pdf文件
+        //loadPDF('http://10.123.56.148:9001/234.pdf');
+        //如果在服务端运行，需要再不跨域的情况下，获取pdf文件
+        loadPDF(url);
+
+
+    };
+
+    var bs = "";
+
+    function one(a) {
+        bs = 1;
+        pageNumBS = a;
+        var b = "#cw-pdf-" + a;
+        //console.log(b);
+        
+        //$("#page_num").html(a);
+        $('html, body').animate({scrollTop: $(b).offset().top}, 500)
+        //$('html, body').animate({scrollTop:'1454px'}, 1000)
+    }
+
+    function int(_this) {
+        var num = $(_this).val();
+        pageNumBS = num;
+        //$("#page_num").html(num);
+        one(num);
+    }
+
+     /**
+     * 上一页
+     */
+    function onPrevPage() {
+      if (pageNumBS <= 1) {
+        return;
+      }
+      pageNumBS--;
+      //$("#page_num").html(pageNumBS);
+      one(pageNumBS);
+    }
+
+    /**
+     * 下一页
+     */
+    function onNextPage() {
+      if (pageNumBS >= pageNum) {
+        return;
+      }
+      pageNumBS++;
+      //$("#page_num").html(pageNumBS);
+      one(pageNumBS);
+    }
+
+    //监听滚动
+    $(window).scroll(function(event){
+        if(bs == 1){
+            bs = "";
+            return;
+        }else {
+            var scrPageNum =  Math.ceil($(window).scrollTop()/1460) ;
+            pageNumBS = scrPageNum;
+            $("#page_num").html(pageNumBS);
+            //console.log($(window).scrollTop());
+        }
+    });
+
+</script>
+</html>

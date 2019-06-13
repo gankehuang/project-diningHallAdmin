@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>绿色食品数字档案管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <style>
+      .layui-disabled,.layui-disabled:hover {
+        color: black !important;
+        cursor: not-allowed !important
+      }
+  </style>
+  <body>
+    <div class="x-body">
+        <form class="layui-form" lay-filter="example">
+          <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>基本信息</legend>
+          </fieldset>
+          <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">企业名称</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="CompanyName" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">商标</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Brand" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">企业法定代表人</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Representative" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">年生产总值</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Total" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">年利润</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Revenue" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">档案编号</label>
+                <div class="layui-input-inline">
+                  <input type="tel" name="Original" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">产品名称</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="ProductName" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">申请人(中文)</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="ProposerCN" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">申请人(英文)</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="ProposerEN" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              
+          </div>
+
+          <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">营业执照注册号</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="RegistrationNo" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">申请日期</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="ApplicationDate" id="ApplicationDate" lay-verify="required|date" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">申请人简介</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Resume" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">受理日期</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="AcceptanceDate" id="AcceptanceDate" lay-verify="required|date" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">获证日期</label>  
+                <div class="layui-input-inline">
+                  <input type="text" name="AwardDate" id="AwardDate" lay-verify="required|date" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">首次获证时间</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="FirstAwardDate" id="FirstAwardDate" lay-verify="required|date" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              
+              
+          </div>
+
+          <div class="layui-form-item">   
+              <div class="layui-inline">
+                <label class="layui-form-label">龙头企业</label>
+                <div class="layui-input-inline">
+                  <!-- <input type="text" name="Level" lay-verify="required|text" autocomplete="off" class="layui-input" disabled> -->
+                  <select name="Level" lay-filter="aihao" disabled>
+                    <option value="">请选择</option>
+                    <option value="国家级">国家级</option>
+                    <option value="省(市)级">省(市)级</option>
+                    <option value="地市级">地市级</option>
+                    <option value="其他">其他</option>
+                  </select>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">申报主体类型</label>
+                <div class="layui-input-inline">
+                  <select name="ShenBaoType" lay-filter="aihao" disabled>
+                    <option value="">请选择</option>
+                    <option value="合作社">合作社</option>
+                    <option value="龙头企业">龙头企业</option>
+                    <option value="军队">军队</option>
+                    <option value="其他">其他</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="layui-inline">
+                <label class="layui-form-label">内检员</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Inspector" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">初次/续展</label>
+
+                <div class="layui-input-inline">
+                  <select name="IsFirst" lay-filter="aihao" disabled="true">
+                    <option value=""></option>
+                    <option value="1">初次</option >
+                    <option value="0">续展</option >
+                  </select>
+                </div>
+
+              </div>
+          </div>
+
+          <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">联系人</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Contacts" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">邮编</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="PostCode" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">网址</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Url" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">座机</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Telephone" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">手机</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Phone" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">传真</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Fax" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">Email</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="Email" lay-verify="required|text" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">联系地址</label>
+            <div class="layui-input-block">
+              <input type="text" name="Address" lay-verify="title" autocomplete="off" placeholder="请输入联系地址" class="layui-input" disabled>
+            </div>
+          </div>
+
+          <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>产品信息</legend>
+          </fieldset>
+          
+          <div id="productList">
+              <!-- <div class="layui-form-item"> 
+                  <div class="layui-inline">
+                    <label class="layui-form-label">产品名称</label>
+                    <div class="layui-input-inline">
+                      <input type="text" name="email" lay-verify="required|text" autocomplete="off" class="layui-input">
+                    </div>
+                  </div>
+                  <div class="layui-inline">
+                    <label class="layui-form-label">产品类别</label>
+                    <div class="layui-input-inline">
+                      <div class="layui-input-inline">
+                        <select name="nuin" class="category">
+                          <option value="">产品类别</option>
+                          <option value="1">环境检测机构名称</option>
+                          <option value="2">产品检测机构名称</option>
+                          <option value="3">地方工作机构名称</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+              </div> -->
+          </div>
+          
+           
+
+
+          <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>上传PDF</legend>
+          </fieldset>
+
+          <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">1.基本材料</label>
+                <div class="layui-input-block">
+                  <!-- <button type="button" class="layui-btn" id="upload1"><i class="layui-icon"></i>上传文件</button> -->
+                  <div class="layui-inline layui-word-aux " id="basicMaterials" style="margin-top: 10px;">
+                      <!-- <input type="text" class="basicMaterials" name="BasicFile" style="border: none; margin-top: 5px; width: 900px;background: white" disabled="true"> -->
+
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">2.补充材料</label>
+                <div class="layui-input-block">
+                  <!-- <button type="button" class="layui-btn" id="upload2"><i class="layui-icon"></i>上传文件</button> -->
+                  <div class="layui-inline layui-word-aux " id="supplementaryMaterials" style="margin-top: 10px;">
+                      <!-- <input type="text" class="supplementaryMaterials" name="AddFile" style="border: none; margin-top: 5px; width: 900px;background: white" disabled="true"> -->
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+          </fieldset>
+
+          <!-- <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  增加
+              </button>
+          </div> -->
+        </form>
+    </div>
+    <script src="common/server.js"></script>
+    <script src="common/common.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script>
+
+        //console.log( getUrlParam('id') );
+        var ID = getUrlParam('id');   //获取地址栏参数
+        
+        var details = sendAjax(Server.service.GetArchivesInfoByID, {'ID': ID})
+        console.log('@@@@@@@@@@@', details);
+        let pdfUrl1 = encodeURI(encodeURI('/pdfjs/web/viewer.html?url=' + details.BasicFile));
+        let pdfName = details.BasicFile.split('/');
+        let eleText1 = `<a href="${pdfUrl1}" target="_blank" style="color: blue;">${pdfName[pdfName.length-1]}</a>`;
+        $("#basicMaterials").html(eleText1);
+
+        let pdfUrl2 = encodeURI(encodeURI('/pdfjs/web/viewer.html?url=' + details.AddFile));
+        let pdfName2 = details.AddFile.split('/');
+        let eleText2 = `<a href="${pdfUrl2}" target="_blank" style="color: blue;">${pdfName2[pdfName2.length-1]}</a>`;
+        $("#supplementaryMaterials").html(eleText2);
+
+
+        layui.use(['form','layer','upload', 'laydate'], function(){
+            $ = layui.jquery;
+            var form = layui.form,
+            layer = layui.layer,
+            upload = layui.upload;
+            laydate = layui.laydate;
+
+            //申请日期
+            laydate.render({     
+              elem: '#ApplicationDate'
+            });
+            laydate.render({
+              elem: '#AcceptanceDate'
+            });
+            laydate.render({
+              elem: '#AwardDate'
+            });
+            laydate.render({
+              elem: '#FirstAwardDate'
+            });
+
+            //console.log('初始赋值', details);
+            form.val('example', details);   //表单初始赋值
+
+            if(details) {
+
+
+                var productList = JSON.parse( details.Product );
+                var productListContent = '';
+                for(var i=0; i<productList.length; i++) {
+                    productListContent += `
+                        <div class="layui-form-item"> 
+                          <div class="layui-inline">
+                            <label class="layui-form-label">产品名称</label>
+                            <div class="layui-input-inline">
+                              <input type="text" value="${productList[i].Name}" lay-verify="required|text" autocomplete="off" class="layui-input int" disabled>
+                            </div>
+                          </div>
+                          <div class="layui-inline">
+                            <label class="layui-form-label">产品类别</label>
+                            <div class="layui-input-inline">
+                              <div class="layui-input-inline">
+                                <select class="category" disabled>
+                                    
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="layui-inline">
+                            <label class="layui-form-label">产品产量</label>
+                            <div class="layui-input-inline">
+                              <input type="text" value="${productList[i].Output}" lay-verify="required|text" autocomplete="off" class="layui-input int" disabled>
+                            </div>
+                          </div>
+                      </div>
+                    `
+                }
+                $('#productList').html(productListContent);
+
+                //获取产品类型
+                var productType = sendAjax(Server.service.GetClassifyList, {"Type": 0} );
+                var productTypeEle = '<option value="">请选择产品类别</option>';
+                for(var i=0; i<productType.length; i++) {
+                    //console.log(productType[i].id);
+                    productTypeEle += `
+                        <option value="${productType[i].id}">${productType[i].name}</option>
+                    `
+                }
+                $('.category').html(productTypeEle);
+                //回填产品类型
+                $('#productList').find('select').each(function(i) {
+                    $(this).val(productList[i].ClassifyId);
+                })  
+
+                form.render();
+
+                //监听提交
+                form.on('submit(add)', function(data){
+                    var sendData = data.field; 
+                    var productListNew = productList;
+                    //console.log('11111111111', productListNew);
+                    $('.int').each(function(j) {
+                        productListNew[j].Name = $(this).val();
+                    })
+                    $('#productList').find('select').each(function(i) {
+                        productListNew[i].ClassifyId = $(this).val();
+                    })
+                    
+                    sendData.Product = productListNew;
+                    //console.log(sendData);
+                    sendAjax1(Server.service.AddorEditArchives, {"ID": ID, "jsonStr": JSON.stringify(sendData)}, function(data) {
+                        var info = data;
+                        console.log(info);
+                        if(info.success == 1) {
+                            layer.alert("增加成功", {icon: 6},function () {
+                                var index = parent.layer.getFrameIndex(window.name);  // 获得frame索引
+                                parent.layer.close(index);   //关闭当前frame
+                            });
+                        }else {
+                            return layer.alert(info.message, {icon: 5});
+                        }
+                        
+                    } )
+                    
+                    return false;
+                });
+            }
+
+          
+            //基本材料上传
+            var oldPath = $('.basicMaterials').val();
+            upload.render({
+              elem: '#upload1',
+              url: Server.service.UploadAll+'?type=4&oldPath=' + oldPath,
+              accept: 'file',    //普通文件
+              done: function(res){
+                  var url = JSON.parse(res.resultData);
+                  //console.log(url);
+                  $('.basicMaterials').val(url[0].Url);
+                  return layer.msg(res.message);
+              },
+              error: function(){
+                  return layer.msg('上传失败');
+              }
+            });
+            //补充材料上传
+            var oldPath = $('.supplementaryMaterials').val();
+            upload.render({
+              elem: '#upload2',
+              url: Server.service.UploadAll+'?type=4&oldPath=' + oldPath,
+              accept: 'file',    //普通文件
+              done: function(res){
+                  var url = JSON.parse(res.resultData);
+                  //console.log(url);
+                  $('.supplementaryMaterials').val(url[0].Url);
+                  return layer.msg(res.message);
+                  
+              },
+              error: function(){
+                  return layer.msg('上传失败');
+              }
+            });
+        });
+
+
+
+    </script>
+    
+  </body>
+
+</html>

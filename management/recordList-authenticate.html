@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>食堂后台管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      xblock div{ padding: 5px;  }
+      xblock div ul{ list-style: none; display: inline-block; }
+      xblock div ul li{ float: left; padding: 0 10px; }
+      xblock div ul li a{ color: blue }
+      .searchContent .layui-form-item{ margin-bottom: 0  }
+      .layui-table-cell {
+          height: auto;
+          line-height: 28px;
+      }
+    </style>
+  </head>
+  
+  <body>
+   
+    
+        <div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a>
+              <cite>查看列表</cite></a>
+          </span>
+          <a class="layui-btn layui-btn-small layui-btn-normal" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon layui-icon-refresh-1" style="line-height:30px"></i></a>
+        </div>
+        <div class="x-body">
+          <div class="layui-row" id="search">
+            <form class="layui-form layui-col-md12 x-so" lay-filter="fullText" style="text-align: left;">
+                <input name="Name" placeholder="请输入菜名" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\.]/g, '')" class="layui-input" style="margin-left: 1%;width: 70%">
+                <button class="layui-btn layui-btn-normal" title="检索" lay-submit="" lay-filter="fullTextSreach"><i class="layui-icon">&#xe615;</i></button>
+            </form>
+          </div>
+
+          <p style="margin-bottom: 10px;text-align: right;padding-right: 20px; font-size: 14px">合计：<span id="count" style="font-size: 14px"></span>条</p>
+          <table class="layui-hide" id="test" lay-filter="test" style="margin-top: 30px"></table>
+        </div>
+   
+    <script src="common/server.js"></script>
+    <script src="common/common.js"></script>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            
+            <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+            <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchDel">批量删除</button>
+        </div>
+    </script>
+    <script type="text/html" id="switchTpl">
+      <!-- 这里的 checked 的状态只是演示 -->
+      <input type="checkbox" disabled="true" name="Indent" value="{{d.Id}}" lay-skin="switch" lay-text="是|否" lay-filter="sexDemo" {{ d.Indent == 'true' ? 'checked' : '' }}>
+    </script>
+
+    <script>
+
+        let Type = decodeURI( getUrlParam('Type') );
+       
+        //获取档案列表
+        let Indexes;
+        Indexes = sendAjax(Server.service.GetAllRecipe, {"draw": 1, 'start': 0, 'length': 100000, 'retrievalInfo': JSON.stringify({'Type': Type})} );
+        Indexes.data = JSON.parse(Indexes.data);
+        console.log(Indexes);
+        
+        $('#count').html(Indexes.recordsTotal);
+        let search = '';   //搜索栏获取的最终数据
+        let checkboxList = {};
+
+        layui.use(['table', 'form', 'laypage', 'laydate'], function(){
+          let form = layui.form;
+          let laypage = layui.laypage;
+          let table = layui.table;
+          //数据表格
+          table.render({
+            elem: '#test',
+            toolbar: '#toolbarDemo',
+            title: '用户数据表',
+            cols: [[
+              {type: 'checkbox'},
+              {field:'Name', title:'菜名',width:200, sort: true,},
+              {field:'Price', title:'价格(元)',width:150, sort: true},
+              {field:'Unit', title:'单位', width:70 },
+              {field:'Picture', title:'图片', templet:function(res) {  
+                  //console.log(res);
+                  if(res.Picture){
+                      let imgUrl = Server.filepath + res.Picture;
+                      let img = `<img src="${imgUrl}" style="width: 100px" />`
+                      return img;
+                  }else {
+                      return '';
+                  }
+                  
+              }},
+              { field:'Indent', title:'是否允许下单', templet: '#switchTpl' },
+              { title:'操作',  width:150, templet: function(res) {  //toolbar: '#barDemo',
+                  //console.log(res);
+                  let editEle = '';
+                  editEle = `
+                      <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+                      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                  `
+                  return editEle;
+              }}
+            ]],
+            id: 'reload',
+            data: Indexes.data,
+            page: true
+          });
+          //头工具栏事件
+          table.on('toolbar(test)', function(obj){
+            let checkStatus = table.checkStatus(obj.config.id);
+            let selectData = checkStatus.data;  //勾选行数据
+            let dataID = '';
+            for(let i=0; i<selectData.length; i++) {
+                dataID += selectData[i].Id + ','
+            }
+            dataID = dataID.slice(0,dataID.length-1);
+            //console.log(dataID)
+
+            switch(obj.event){
+              case 'add':    //添加
+                  let url = encodeURI(encodeURI('./recordList-edit.html?Type='+ Type));
+                  x_admin_show('添加', url);
+              break;
+              case 'batchDel':  //批量删除
+                  //console.log(selectData.length);
+                  if(selectData.length == 0) {
+                      layer.msg('请勾选行');
+                      return;
+                  } else{
+                      layer.confirm('真的要删除么', function(index){
+                          sendAjax1(Server.service.DelRecipe, {
+                              'Type': 0,
+                              'id': dataID,
+                              'value': 0
+                          }, 
+                          function(data) {
+                              if(data.success == 1) {
+                                  layer.msg(data.message);
+                                  //obj.del();
+                                  layer.close(index);
+
+                                  Indexes = sendAjax(Server.service.GetAllRecipe, {
+                                      'draw': 0,
+                                      'start': 0,
+                                      'length': 10000,
+                                      'retrievalInfo': JSON.stringify({'Type': Type})
+                                  })
+                                  table.reload('reload', {
+                                      data: JSON.parse(Indexes.data)
+                                  })
+                                  
+                              } else {
+                                  layer.msg('删除失败');
+                              }
+                          })
+                      });
+                  }
+              break;
+            };
+          });
+          
+          //监听行工具事件
+          table.on('tool(test)', function(obj){
+            let data = obj.data;
+            console.log(obj)
+            if(obj.event === 'edit'){
+                let url = encodeURI(encodeURI('./recordList-edit.html?Id='+ obj.data.Id+'&Type='+ obj.data.Type));
+                x_admin_show('修改', url);
+            } else if(obj.event == 'del') {   //删除
+                layer.confirm('真的要删除么', function(index){
+                  sendAjax1(Server.service.DelRecipe, {
+                        'Type': 0,
+                        'id': data.Id,
+                        'value': 0
+                    }, 
+                    function(data) {
+                        if(data.success == 1) {
+                            layer.msg(data.message);
+                            obj.del();
+                            layer.close(index);
+                        } else {
+                            layer.msg('删除失败');
+                        }
+                    })
+                });
+            }
+          });
+          
+          //全文检索监听提交
+          form.on('submit(fullTextSreach)', function(data){    //FullTextSearch
+              //console.log(data.field);
+              let text = {}; 
+              text.draw = 0;
+              text.start = 0;
+              text.length = 10000;
+              text.retrievalInfo = JSON.stringify({'Type': Type, 'Name': data.field.Name});
+              sendAjax2(Server.service.GetAllRecipe, text, function(data) {
+                  $('#count').html(data.recordsTotal);
+                  table.reload('reload', {
+                    data: JSON.parse(data.data)
+                  })
+              });  
+              //console.log(fullText);
+              return false;
+          })
+
+          //是否允许下单操作
+          form.on('switch(sexDemo)', function(obj){
+            console.log(obj);
+            layer.tips(this.value + ' '+ obj.elem.checked, obj.othis);
+          });
+
+        });
+        
+       
+
+    </script>
+    
+
+
+  </body>
+
+</html>

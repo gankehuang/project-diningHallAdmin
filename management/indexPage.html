@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>食堂后台管理系统</title>
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+	<link rel="stylesheet" href="./css/xadmin.css">
+    
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/mouseRight.min.js" type="text/javascript" charset="utf-8"></script>
+    <style type="text/css">
+        .shade{
+            width:100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            
+        }
+        .wrap-ms-right{
+            list-style: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            padding: 5px 0;
+            min-width: 80px;
+            margin: 0;
+            display: none;
+            font-family: "微软雅黑";
+            font-size: 14px;
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, .15);
+            box-sizing: border-box;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            -moz-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            -ms-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            -o-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .ms-item{
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .ms-item:hover{
+            background-color: #343a40;
+            color: #FFFFFF;
+        }
+        .m{
+            width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="layui-layout layui-layout-admin">
+      <div class="layui-header" style="background-color: #2B71B6; color: #367913;height: 50px;">
+        <!-- <img src="Img/logo.png" alt="" style="width: 40px; margin: 5px 5px; cursor: pointer" id="reload"> -->
+        <div class="layui-logo" style="color: white; font-size: 16px; font-weight: bold; margin-left: 30px;">食堂后台管理系统</div>
+       
+        <ul class="layui-nav layui-layout-right">
+          <li class="layui-nav-item">
+            <a href="javascript:;" style="color: white">
+              <img src="Img/portrait.png" class="layui-nav-img">
+              <span id="loginName"></span>
+            </a>
+            <dl class="layui-nav-child">
+              <dd><a href="javascript:;" id="basics">基本资料</a></dd>
+              <!-- <dd><a href="">安全设置</a></dd> -->
+            </dl>
+          </li>
+          <li class="layui-nav-item"><a href="javascript:;" id="loginOff" style="color: white">退出</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 顶部结束 -->
+    <!-- 中部开始 -->
+     <!-- 左侧菜单开始 -->
+    <div class="left-nav" style="background-color: #6293C1;">
+      <div id="side-nav">
+        
+        <!-- 管理员 -->
+        <ul id="nav" class="nav1">
+            <li>
+                <a _href="myDesktop.html">
+                    <i class="iconfont">&#xe723;</i>
+                    <cite>本周食谱</cite>
+                </a>
+            </li>
+            <li>
+                <a _href="javascript:;">
+                    <i class="iconfont">&#xe723;</i>
+                    <cite>预约取餐</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="recordList-authenticate.html">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>面食</cite>
+                        </a>
+                    </li >
+                </ul>
+            </li>
+            <!-- <li>
+                <a _href="javascript:;">
+                    <i class="iconfont">&#xe723;</i>
+                    <cite>农科产品</cite>
+                </a>
+            </li>
+            <li>
+                <a _href="javascript:;">
+                    <i class="iconfont">&#xe723;</i>
+                    <cite>订单管理</cite>
+                </a>
+            </li>
+            
+            <li id="personalCenter">
+                <a _href="personage-edit.html">
+                    <i class="iconfont">&#xe726;</i>
+                    <cite>个人中心</cite>
+                </a>
+            </li> -->
+        </ul>
+
+     
+
+      </div>
+    </div>
+    <!-- <div class="x-slide_left"></div> -->
+    <!-- 左侧菜单结束 -->
+    <!-- 右侧主体开始 -->
+    <div class="page-content">
+        <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
+          <ul class="layui-tab-title">
+            <li>本周食谱</li>
+          </ul>
+          <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <iframe src='./myDesktop.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="page-content-bg"></div>
+    <!-- 右侧主体结束 -->
+    <!-- 中部结束 -->
+
+    <!-- 底部开始 -->
+    <div class="footer" style="background-color: #2B71B6; text-align: center;">
+        <div class="copyright">版权 ©2019年 中国农业科学院版权所有</div>  
+    </div>
+    <!-- 底部结束 -->
+    
+    <script src="common/server.js"></script>
+    <script src="common/common.js"></script>
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script>
+
+            $('#reload').click(function() {
+                window.location.reload();
+            })
+
+            $('#loginName').html(getCookie('LoginName'));  //获取当前登录用户名
+
+            let RoleId = getCookie('RoleId');
+            if( RoleId == 1 ) {  //管理员账户
+                $('#userManagement').show();
+                $('#authenticate').show();
+            } else if( RoleId == 2 ) {   //普通账户
+                $('#personalCenter').show();
+            }
+
+            //退出登录
+            $('#loginOff').on('click', function() {
+                sendAjax1(Server.service.LogOff, {}, function(val) {
+                    console.log(val);
+                    if(val.success == 1) {
+                        //layer.msg("退出成功", {icon: 6});
+                        window.location.href = 'index.html';
+                    } else {
+                        return layer.alert(val.message, {icon: 5});
+                    }
+                });
+            })
+
+            sendAjax2(Server.service.GetMenuType, {}, function(val){
+                let ele = '';
+                for (let i=0; i<val.length; i++) {
+                    let url = encodeURI(encodeURI('recordList-authenticate.html?Type='+ val[i].Type) );
+                    ele += `
+                        <li>
+                            <a _href="${url}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>${val[i].Type}</cite>
+                            </a>
+                        </li>
+                    `
+                    $('.sub-menu').html(ele);
+                }
+            })
+            
+
+            layui.use(['table', 'form', 'laypage'], function(){
+                let sel_del = '';
+                $('.del_year').mousedown(function(e){
+                    if(3 == e.which){      //Right click the mouse
+                        //console.log($(this));
+                        sel_del =  $(this);     
+                    }
+                })
+
+               
+            })
+            
+           
+
+    </script>
+    
+</body>
+</html>
